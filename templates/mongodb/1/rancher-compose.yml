@@ -106,16 +106,19 @@
       label: Volume path of mongod nodes (Optional)
       description: To store the mongod data.
       type: string
+      default: "${MONGOD_HOST_LABEL}"
       required: false
     - variable: ARBITER_VOLUME_PATH
       label: Volume path of arbiter nodes (Optional)
       description: To store the arbiter data.
       type: string
+      default: "${ARBITER_HOST_LABEL}"
       required: false
     - variable: CONFIGSVR_VOLUME_PATH
       label: Volume path of configsvr nodes (Optional)
       description: To store the configsvr data.
       type: string
+      default: "${CONFIGSVR_HOST_LABEL}"
       required: false
 
 version: '2'
