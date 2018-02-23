@@ -125,13 +125,13 @@ version: '2'
 services:
   mongod:
     scale: ${MONGOD_SCALE}
-    start_on_create: true
+    start_on_create: false
     retain_ip: true
   configsvr:
     scale: ${CONFIGSVR_SCALE}
-    start_on_create: true
+    start_on_create: false
     retain_ip: true
   mongos:
     scale: 1
-    start_on_create: true
+    start_on_create: false
     retain_ip: true
