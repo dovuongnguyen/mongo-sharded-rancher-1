@@ -67,7 +67,7 @@
         host. Recommended 2.
       type: int
       required: true
-      default: 2
+      default: 3
     - variable: "CONFIGSVR_SCALE"
       label: "Configsvr Scale"
       description: |
