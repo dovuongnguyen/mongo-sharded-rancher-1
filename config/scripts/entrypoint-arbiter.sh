@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-mongod --fork --logpath /var/log/mongod.log --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017 --bind_ip_all
+mongod --fork --logpath /var/log/mongod.log --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017
 MYIP=$(/opt/rancher/bin/giddyup ip myip)
 stack_name=`echo -n $(/opt/rancher/bin/curl http://rancher-metadata/latest/self/stack/name)`
 mongod_members=$(/opt/rancher/bin/curl http://rancher-metadata/latest/stacks/$stack_name/services/mongod/containers)
@@ -15,4 +15,4 @@ do
     mongo --host $IP -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase admin --eval "printjson(rs.addArb('$MYIP:27017'))"
   fi
 done
-mongod --shutdown && mongod --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017 --bind_ip_all
+mongod --shutdown && mongod --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017

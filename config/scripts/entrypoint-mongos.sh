@@ -14,7 +14,7 @@ members=$(echo "$members" | sed 's/,//')
 
 if [ ! -f /data/db/.metadata/.router ]
   then
-  mongos --fork --logpath /var/log/mongod.log --port 27017 --bind_ip_all --keyFile /run/secrets/MONGODB_KEYFILE --configdb $CONFIGSVR_RS_NAME/$members
+  mongos --fork --logpath /var/log/mongod.log --port 27017  --keyFile /run/secrets/MONGODB_KEYFILE --configdb $CONFIGSVR_RS_NAME/$members
   RET=1
   while [ $RET != 0 ]
   do
@@ -49,7 +49,7 @@ mydb.createUser(
 EOF
   mkdir -p /data/db/.metadata
   touch /data/db/.metadata/.router
-  mongo -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD admin --eval "printjson(db.shutdownServer())" && mongos --port 27017 --bind_ip_all --keyFile /run/secrets/MONGODB_KEYFILE --configdb $CONFIGSVR_RS_NAME/$members
+  mongo -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD admin --eval "printjson(db.shutdownServer())" && mongos --port 27017  --keyFile /run/secrets/MONGODB_KEYFILE --configdb $CONFIGSVR_RS_NAME/$members
 else
-  mongos --port 27017 --bind_ip_all --keyFile /run/secrets/MONGODB_KEYFILE --configdb $CONFIGSVR_RS_NAME/$members
+  mongos --port 27017  --keyFile /run/secrets/MONGODB_KEYFILE --configdb $CONFIGSVR_RS_NAME/$members
 fi

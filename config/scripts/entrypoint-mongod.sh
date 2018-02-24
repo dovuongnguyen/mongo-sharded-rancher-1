@@ -5,7 +5,7 @@ if [ "$?" -eq "0" ]
 then
   echo "This is the lowest numbered contianer.. Handling the initiation."
   if [ ! -f /data/db/.metadata/.replicaset ]; then
-    mongod --fork --dbpath /data/db --port 27017 --bind_ip_all --logpath /var/log/mongod.log
+    mongod --fork --dbpath /data/db --port 27017  --logpath /var/log/mongod.log
     RET=1
     while [ $RET -ne 0 ]
     do
@@ -16,7 +16,7 @@ then
     done
 
     mongo admin --eval "db.createUser({user:'$MONGO_INITDB_ROOT_USERNAME',pwd:'$MONGO_INITDB_ROOT_PASSWORD',roles:[{role:'root',db:'admin'}]})"
-    mongod --shutdown && mongod --fork --logpath /var/log/mongod.log --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017 --bind_ip_all
+    mongod --shutdown && mongod --fork --logpath /var/log/mongod.log --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017
     echo "Replicaset servers setup"
     MYIP=$(/opt/rancher/bin/giddyup ip myip)
     CONFIG="{_id:\"$RS_NAME\",version:1,members:[{_id:0,host:\"$MYIP:27017\"}]}"
@@ -30,12 +30,12 @@ then
 
     mkdir -p /data/db/.metadata
     touch /data/db/.metadata/.replicaset
-    mongod --shutdown && mongod --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017 --bind_ip_all
+    mongod --shutdown && mongod --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017
   else
-    mongod --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017 --bind_ip_all
+    mongod --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017
   fi
 else
-  mongod --fork --logpath /var/log/mongod.log --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017 --bind_ip_all
+  mongod --fork --logpath /var/log/mongod.log --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017
   MYIP=$(/opt/rancher/bin/giddyup ip myip)
   for IP in $(/opt/rancher/bin/giddyup ip stringify --delimiter " ")
   do
@@ -45,5 +45,5 @@ else
       mongo --host $IP -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase admin --eval "printjson(rs.add('$MYIP:27017'))"
     fi
   done
-  mongod --shutdown && mongod --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017 --bind_ip_all
+  mongod --shutdown && mongod --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME --shardsvr --dbpath /data/db --port 27017
 fi
