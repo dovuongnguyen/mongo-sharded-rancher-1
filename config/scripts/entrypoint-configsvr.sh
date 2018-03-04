@@ -17,7 +17,7 @@ then
     done
 
     mongo admin --eval "db.createUser({user:'$MONGO_INITDB_ROOT_USERNAME',pwd:'$MONGO_INITDB_ROOT_PASSWORD',roles:[{role:'root',db:'admin'}]})"
-    mongod --shutdown && mongod --fork --logpath /var/log/mongod.log --configsvr --dbpath /data/db --port "27017"  --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME
+    mongod --shutdown && mongod --fork --logpath /var/log/mongod.log --configsvr --dbpath /data/db --port "27017" --bind_ip_all  --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME
     # Replicaset servers setup
     MYIP=$(/opt/rancher/bin/giddyup ip myip)
     CONFIG="{_id:\"$RS_NAME\",configsvr:true,version:1,members:[{_id:0,host:\"$MYIP:27017\"}]}"
@@ -33,12 +33,12 @@ then
 
     mkdir -p /data/db/.metadata
     touch /data/db/.metadata/.configsvr
-    mongod --shutdown && mongod --configsvr --dbpath /data/db --port "27017"  --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME
+    mongod --shutdown && mongod --configsvr --dbpath /data/db --port "27017" --bind_ip_all  --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME
   else
-    mongod --configsvr --dbpath /data/db --port "27017"  --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME
+    mongod --configsvr --dbpath /data/db --port "27017" --bind_ip_all  --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME
   fi
 else
-  mongod --fork --logpath /var/log/mongod.log --configsvr --dbpath /data/db --port "27017"  --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME
+  mongod --fork --logpath /var/log/mongod.log --configsvr --dbpath /data/db --port "27017" --bind_ip_all  --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME
   MYIP=$(/opt/rancher/bin/giddyup ip myip)
   for IP in $(/opt/rancher/bin/giddyup ip stringify --delimiter " ")
   do
@@ -48,5 +48,5 @@ else
       mongo --host $IP -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase admin --eval "printjson(rs.add('$MYIP:27017'))"
     fi
   done
-  mongod --shutdown && mongod --configsvr --dbpath /data/db --port "27017"  --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME
+  mongod --shutdown && mongod --configsvr --dbpath /data/db --port "27017" --bind_ip_all  --keyFile /run/secrets/MONGODB_KEYFILE --replSet $RS_NAME
 fi
