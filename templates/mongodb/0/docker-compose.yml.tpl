@@ -27,7 +27,7 @@ services:
     entrypoint: /opt/rancher/bin/entrypoint-mongod.sh
 
   mongod-config:
-    image: free/mongo-cfg:latest
+    image: freemongocfg
     stdin_open: true
     tty: true
     volumes:
@@ -81,7 +81,7 @@ services:
     - mongod
 
   arbiter-config:
-    image: free/mongo-cfg:latest
+    image: freemongocfg
     stdin_open: true
     tty: true
     volumes:
@@ -135,7 +135,7 @@ services:
     entrypoint: /opt/rancher/bin/entrypoint-configsvr.sh
 
   configsvr-config:
-    image: free/mongo-cfg:latest
+    image: freemongocfg
     stdin_open: true
     tty: true
     volumes:
@@ -195,7 +195,7 @@ services:
     - configsvr
 
   mongos-config:
-    image: free/mongo-cfg:latest
+    image: freemongocfg
     stdin_open: true
     tty: true
     volumes:
