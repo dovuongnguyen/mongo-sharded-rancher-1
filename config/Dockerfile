@@ -1,6 +1,6 @@
-FROM alpine:3.7@sha256:ccba511b1d6b5f1d83825a94f9d5b05528db456d9cf14a1ea1db892c939cda64
+FROM alpine:3.7
 
-LABEL maintainer "Leonardo Gatica <lgatica@protonmail.com>"
+LABEL maintainer "freexmonster <freexmonster@yandex.ru>"
 
 ENV GIDDYUP_VERSION=0.19.0 CURL_VERSION=7.56.1
 
