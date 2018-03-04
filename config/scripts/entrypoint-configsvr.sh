@@ -6,7 +6,7 @@ then
   echo "This is the lowest numbered contianer.. Handling the initiation."
   if [ ! -f /data/db/.metadata/.configsvr ]
   then
-    mongod --fork --dbpath /data/db --port 27017  --logpath /var/log/mongod.log
+    mongod --fork --dbpath /data/db --port 27017 --bind_ip_all  --logpath /var/log/mongod.log
     RET=1
     while [ $RET -ne 0 ]
     do
