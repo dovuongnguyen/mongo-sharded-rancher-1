@@ -9,7 +9,7 @@
       label: "MongoDB version"
       type: enum
       options:
-        - mongo:3.6.1
+        - mongo:3.6.2
         - mongo:3.4.10
         - mongo:3.2.18
       default: mongo:3.6.1
